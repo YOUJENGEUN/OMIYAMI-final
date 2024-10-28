@@ -40,25 +40,3 @@
   cursor: pointer;
   opacity: 0.8;
 }
-
-.review-table1 {
-  border-collapse: collapse;
-  width: 75%;
-  margin-bottom: 1rem;
-  vertical-align: top;
-  border-color: var(--bs-table-border-color);
-}
-
-.review-table1 th {
-  padding: 1.3rem;
-}
-
-.review-table1 tr {
-  padding-bottom: 4rem;
-  border: none;
-}
-
-.review-table1 td,
-.review-table1 th {
-  border: none;
-}

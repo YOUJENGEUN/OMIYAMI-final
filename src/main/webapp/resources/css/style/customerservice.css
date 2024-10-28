@@ -152,13 +152,15 @@
   font-size: var(--size300);
 }
 
-.rotate {
+/* .rotate {
   transition: transform 0.3s ease;
-}
+} */
 
 .rotate-down {
   transform: rotate(180deg);
+  transition: transform 0.3s ease;
 }
+
 /* 1:1 문의 목록 페이지 >> */
 .inquiry-list {
   position: relative;
@@ -188,12 +190,16 @@
 .number {
   box-sizing: border-box;
   width: 10%;
-  padding-left: 4% !important;
   text-align: center;
 }
 
-.oder-number {
-  width: 14%;
+.inquiry-category{
+  width:10%;
+  text-align: center;
+}
+
+.order-number {
+  width: 10%;
   text-align: center;
 }
 
@@ -218,7 +224,7 @@
 
 .inquiry-date,
 .answer-date {
-  width: 11%;
+  width: 10%;
   text-align: center;
 }
 
@@ -233,6 +239,14 @@
   padding-right: 4% !important;
   text-align: center;
 }
+
+.inquiry-notice{
+  margin-left: 30px;
+  padding: 20px 0px 100px 0; 
+  font-size: var(--size200); 
+  color: var(--gray700);"
+}
+
 
 /* 1:1 문의 페이지 >> */
 

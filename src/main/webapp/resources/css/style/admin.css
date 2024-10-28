@@ -320,29 +320,3 @@ footer {
 .rw-img {
   width: 55px;
 }
-
-
-/* 섹션 제목 스타일 */
-.section-title {
-    color: #000000;  /* 검정색으로 변경 */
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-/* 테이블 내 제목 링크 스타일 */
-.table-body a {
-    color: #000000;  /* 검정색으로 변경 */
-    text-decoration: none;
-}
-
-.table-body a:hover {
-    color: #000000;  /* 호버 시에도 검정색 유지 */
-    text-decoration: underline;  /* 호버 시 밑줄만 추가 */
-}
-
-/* 제목 영역 전체 스타일 */
-.row.d-flex .col.section-title.kr-700 {
-    color: #000000;
-    font-weight: 700;
-}
