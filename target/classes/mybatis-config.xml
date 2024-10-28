@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
+
 	<!-- Alias 설정 -->
-	<typeAliases>
-		<!-- 기존 Alias -->
-		<typeAlias alias="product"
-			type="com.omiyami.shop.product.ProductVO" />
+ 	<typeAliases>
+		<typeAlias alias="product" type="com.omiyami.shop.product.ProductVO" />
+		<typeAlias alias="review" type="com.omiyami.shop.product.review.ReviewVO" />
+		
 		<typeAlias alias="user" type="com.omiyami.shop.user.UserVO" />
-
-		<!-- 게시물 관련 Alias -->
-		<typeAlias alias="notice"
-			type="com.omiyami.shop.admin.vo.NoticeVO" />
-		<typeAlias alias="faq"
-			type="com.omiyami.shop.admin.vo.FAQVO" />
-		<typeAlias alias="review"
-			type="com.omiyami.shop.admin.vo.ReviewVO" />
-
-		<!-- 주문 관련 Alias -->
-		<typeAlias alias="orderSummary"
-			type="com.omiyami.shop.admin.vo.OrderSummaryVO" />
-		<!-- 대시보드 관련 Alias -->
-		<typeAlias alias="dashboardSummary"
-			type="com.omiyami.shop.admin.vo.DashboardSummaryVO" />
-
-		<!-- VO 클래스에 대한 별칭 설정 -->
-		<typeAlias type="com.omiyami.shop.admin.vo.AdminMemberVO"
-			alias="AdminMemberVO" />
-		<typeAlias
-			type="com.omiyami.shop.admin.vo.AdminMemberStatsVO"
-			alias="AdminMemberStatsVO" />
+		<typeAlias alias="coupon" type="com.omiyami.shop.user.mypage.UserCouponVO" />
+		
+		<typeAlias alias="cart" type="com.omiyami.shop.cart.CartVO" />
+		
+		<typeAlias alias="faq" type="com.omiyami.shop.cs.faq.FaqVO" />
+		<typeAlias alias="notice" type="com.omiyami.shop.cs.notice.NoticeVO" />
+		<typeAlias alias="inquery" type="com.omiyami.shop.cs.inquery.InqueryVO" />
+		
+		
+		<typeAlias alias="order" type="com.omiyami.shop.order.OrderVO" />
+		<typeAlias alias="orderdetail" type="com.omiyami.shop.order.OrderDetailVO" />
+		<typeAlias alias="paymentdetail" type="com.omiyami.shop.order.PaymentDetailVO" />
+		
 	</typeAliases>
+	
 </configuration>

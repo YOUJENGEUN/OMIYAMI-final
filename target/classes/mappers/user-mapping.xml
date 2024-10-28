@@ -9,7 +9,7 @@
 	<select id="getUserForLogin" parameterType="user" resultType="user">
 		SELECT *
 		FROM user
-		WHERE username = #{username} AND password = #{password}
+		WHERE username = #{username} AND password = #{password} AND status = '가입'
 	</select>
 	
 	<select id="getUserById" parameterType="String" resultType="user">
@@ -17,5 +17,40 @@
         FROM user
         WHERE username = #{username}
 	</select>
+	
+	<insert id="signup" parameterType="user">
+		INSERT INTO USER(username, password, name, email, phone, post_num, address, register_date, status,withdraw_date) VALUE(
+		#{username}, #{password}, #{name}, #{email}, #{phone}, #{post_num}, #{address}, now(), '가입' ,now());
+	</insert>
+	
+	<select id="findId" parameterType="user" resultType="String"> 
+		SELECT username FROM user WHERE name = #{name} AND email =#{email} AND phone=#{phone} 
+	</select>
+	
+	<select id="findPw" parameterType="user" resultType="String"> 
+		SELECT username FROM user WHERE username=#{username} AND name=#{name} AND phone=#{phone} AND email=#{email} 
+	</select>
+	
+	<update id="updatePw" parameterType="user">
+		update user set password =#{password} where username=#{username}
+	</update>
+	
+	<select id="getUserInfo" parameterType="String" resultType="user">
+   	 SELECT username, password, name, email, post_num, address FROM user WHERE username = #{username}
+	</select>
+	
+	<update id="updateInfo" parameterType="user">
+	    UPDATE USER SET password = #{password},email = #{email}, post_num = #{post_num}, address = #{address} WHERE username = #{username};
+	</update>
+		
+	<select id="deleteCheckPassword" parameterType="String" resultType="String">
+   	 SELECT password FROM user WHERE username = #{username}
+	</select>
+		
+	
+	<update id="deleteUser" parameterType="String">
+	    UPDATE USER SET status = '탈퇴', withdraw_date = NOW() WHERE username = #{username};
+	</update>
+
 	
 </mapper>
