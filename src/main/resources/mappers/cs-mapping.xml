@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CSMapper">
+
+<!-- 모든 리스트 출력 -->
+    <select id="getNoticeList" resultType="notice">
+        SELECT notice_id, title, content, write_date 
+        FROM NOTICE 
+        ORDER BY notice_id DESC
+    </select>
+
+    <!-- pagination (토탈 리스트 수 / 출력 할 리스트 수 = 모두 필요) -->
+    <select id="getPagedNoticeList" resultType="notice">
+        SELECT *
+        FROM NOTICE
+        ORDER BY write_date DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="getTotalNoticeCount" resultType="int">
+        SELECT COUNT(*) FROM NOTICE
+    </select>
+
+    <!-- 검색된 총 개수를 위한 쿼리 -->
+    <select id="getTotalNoticeCountByKeyword" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(*) 
+        FROM NOTICE
+        WHERE title LIKE #{keyword}
+    </select>
+
+    <!-- 검색된 FAQ 리스트를 위한 쿼리 -->
+   <select id="searchNotice" resultType="notice">
+	    SELECT * FROM NOTICE
+	    WHERE title LIKE CONCAT('%', #{keyword}, '%') 
+	    OR content LIKE CONCAT('%', #{keyword}, '%')
+	    LIMIT #{offset}, #{pageSize}
+	</select>
+
+
+	<!-- _________________FAQ_________________ -->
+	<!-- 모든 리스트 출력 -->
+    <select id="getFaqList" resultType="faq">
+        SELECT faq_id, title, content, write_date 
+        FROM FAQ 
+        ORDER BY faq_id DESC
+    </select>
+
+    <!-- pagination (토탈 리스트 수 / 출력 할 리스트 수 = 모두 필요) -->
+    <select id="getPagedFaqList" resultType="faq">
+        SELECT *
+        FROM FAQ
+        ORDER BY write_date DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="getTotalFaqCount" resultType="int">
+        SELECT COUNT(*) FROM FAQ
+    </select>
+
+    <!-- 검색된 총 개수를 위한 쿼리 -->
+    <select id="getTotalFaqCountByKeyword" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(*) 
+        FROM FAQ
+        WHERE title LIKE #{keyword}
+    </select>
+
+    <!-- 검색된 FAQ 리스트를 위한 쿼리 -->
+   <select id="searchFaqs" resultType="faq">
+		SELECT * FROM FAQ
+	    WHERE title LIKE CONCAT('%', #{keyword}, '%') 
+	    OR content LIKE CONCAT('%', #{keyword}, '%')
+	    LIMIT #{offset}, #{pageSize}
+	</select>
+
+
+	<!-- _________________문의_________________ -->
+    <!-- 1:1 문의 등록 -->
+    <insert id="insertInquery" parameterType="inquery">
+        INSERT INTO INQUERY (order_id, user_id, category, title, content, email)
+        VALUES (#{order_id}, #{user_id}, #{category}, #{title}, #{content}, #{email})
+    </insert>
+
+   <!-- 페이징포함 문의글 조회 -->
+    <select id="getInqueriesByUserId" parameterType="int" resultType="inquery">
+        SELECT *
+        FROM INQUERY
+        WHERE user_id = #{user_id}
+        ORDER BY write_date DESC
+    </select>
+
+</mapper>
