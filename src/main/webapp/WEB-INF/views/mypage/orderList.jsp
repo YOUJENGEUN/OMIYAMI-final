@@ -44,9 +44,8 @@
 
   <!-- header include -->
   <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
-
-    <div class="mypage-wrapper my-5">
+  
+   <div class="mypage-wrapper my-5">
       <div class="container mt-5">
         <div class="section-title-in kr-700" style="font-size: var(--size800)">마이페이지</div>
         <hr style="border: 1px solid var(--gray900);transform: scaleY(1.1);opacity: 1;"/>
@@ -54,81 +53,32 @@
         <div class="row">    
 		<!-- sidebar include  -->
 		<%@ include file="/WEB-INF/views/common/sidebar.jsp" %>
-		
-          <!-- content -->
+
+
+          <!-- content start -->
           <div class="col-10">
-          
-            <div class="user-check">
-              <div class="user-check-name">
-                <div><span style="font-weight: 600">${userVO.name}</span> 님</div>
-              </div>
-
-              <div class="user-check-item">
-                <div>주문 / 취소</div>
-                <span style="font-weight: 600">${orderCount} / ${cancelCount}</span>
-              </div>
-
-              <div class="user-check-item">
-                <div>포인트</div>
-                <span style="font-weight: 600">${availablePoints}P</span>
-              </div>
-
-              <div class="user-check-item">
-                <div>쿠폰</div>
-                <span style="font-weight: 600">${couponCount}개</span>
-              </div>
-            </div>
-
-
-            <div class="text-left mt-4">주문처리 근황</div>
-            <hr style="border: 1px solid var(--gray600); opacity: 1" />
-            <div class="uorder-check kr-600">
-			    <div class="uorder-check-item ${latestOrderStatus == '결제완료' ? 'highlight' : ''}">
-			        <div>결제예정</div>
-			    </div>
-			    <i class="fa-solid fa-greater-than" style="color: var(--gray600)"></i>
-			    <div class="uorder-check-item ${latestOrderStatus == '결제완료' ? 'highlight' : ''}">
-			        <div>결제완료</div>
-			    </div>
-			    <i class="fa-solid fa-greater-than" style="color: var(--gray600)"></i>
-			    <div class="uorder-check-item ${latestOrderStatus == '상품준비중' ? 'highlight' : ''}">
-			        <div>상품준비중</div>
-			    </div>
-			    <i class="fa-solid fa-greater-than" style="color: var(--gray600)"></i>
-			    <div class="uorder-check-item ${latestOrderStatus == '배송중' ? 'highlight' : ''}">
-			        <div>배송중</div>
-			    </div>
-			    <i class="fa-solid fa-greater-than" style="color: var(--gray600)"></i>
-			    <div class="uorder-check-item ${latestOrderStatus == '배송완료' ? 'highlight' : ''}">
-			        <div>배송완료</div>
-			    </div>
-			</div>
-
-            <br /><br />
-
-            <div class="text-left mt-4">최근 주문상품</div>
-            <hr style="border: 1px solid var(--gray600); opacity: 1" />
-
-            <div class="order-container" style="margin-bottom:100px;">
-              <table class="order-table">
-                  <tr>
-                    <td class="table-title">주문날짜</td>
-                    <td class="table-title">주문번호</td>
-                    <td class="table-title">상품정보</td>
-                    <td class="table-title">수량</td>
-                    <td class="table-title">주문금액</td>
-                    <td class="table-title">주문상태</td>
-                  </tr>
-
-                  <!-- product data -->
-                 <c:forEach var="order" items="${recentOrders}">
+            <div class="text-left mt-4">주문 목록</div>
+            <hr style="border: 1px solid var(--gray600);opacity: 1;margin: 5px 0;"/>
+            <table class="order-table">
+                <tr>
+                  <td class="table-title">주문날짜</td>
+                  <td class="table-title">주문번호</td>
+                  <td class="table-title">상품정보</td>
+                  <td class="table-title">수량</td>
+                  <td class="table-title">주문금액</td>
+                  <td class="table-title">주문상태</td>
+                  <td class="table-title">리뷰작성</td>
+                </tr>
+                
+                <!-- product data -->
+                <c:forEach var="order" items="${allOrders}">
 			        <tr>
 			        	<td valign="middle" style="text-align: center">
 			        		<fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" />	
 			        	</td>
 			            <td valign="middle">
 			                <div style="text-align:center;text-decoration:underline;cursor:pointer;" 
-			                onclick="location.href='/orderdetail?orderId=${order.orderId}'">
+			                	 onclick="location.href='/orderdetail?orderId=${order.orderId}'">
 			                    ${order.orderNum}
 			                </div>
 			            </td>
@@ -155,21 +105,46 @@
 			            <td valign="middle">
 			                <div style="text-align: center">${order.orderStatus}</div>
 			            </td>
+			            <td valign="middle">
+		                    <div>
+	                        <c:if test="${order.orderStatus == '배송완료'}">
+	                            <input class="btn-m" type="button" value="리뷰작성"
+	                                onclick="location.href='/reviewForm?orderNum=${order.orderNum}&productName=${order.productName}&productId=${order.productId}'" />
+	                        </c:if>
+		                    </div>
+			            </td>
 			        </tr>
 			    </c:forEach>
-              </table>
-            </div>
+            </table>
+            
+            <!-- pagination -->
+			<nav aria-label="Page navigation example" style="margin-bottom: 60px; margin-top: 60px">
+		    <ul class="pagination">
+		        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+		            <a class="page-link" href="?page=${currentPage - 1}" aria-label="이전">
+		                <span aria-hidden="true">&laquo;</span>
+		            </a>
+		        </li>
+		
+		        <c:forEach begin="1" end="${totalPages}" var="i">
+		            <li class="page-item ${i == currentPage ? 'active' : ''}">
+		                <a class="page-link" href="?page=${i}">${i}</a>
+		            </li>
+		        </c:forEach>
+		
+		        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+		            <a class="page-link" href="?page=${currentPage + 1}" aria-label="다음">
+		                <span aria-hidden="true">&raquo;</span>
+		            </a>
+		        </li>
+		    </ul>
+			</nav>
           </div>
-          
-        </div>
+        </div> 
       </div>
     </div>
-
-    <!-- content end -->
-
+    
     <!-- footer include -->
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-    
-
   </body>
 </html>
