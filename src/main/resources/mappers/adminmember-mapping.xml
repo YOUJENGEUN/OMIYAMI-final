@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminMember">
+    
+    <!-- 회원 통계 조회 -->
+    <select id="selectMemberStats" resultType="com.omiyami.shop.admin.vo.AdminMemberStatsVO">
+        SELECT 
+            (SELECT COUNT(*) FROM user) as totalMemberCount,
+            (SELECT COUNT(*) FROM user WHERE status = '가입') as newMemberCount,
+            (SELECT COUNT(*) FROM user WHERE status = '탈퇴' OR status IS NULL) as withdrawnMemberCount
+        FROM DUAL
+    </select>
+    
+    <!-- 최신 회원 목록 조회 -->
+    <select id="selectLatestMembers" parameterType="int" resultType="com.omiyami.shop.admin.vo.AdminMemberVO">
+           SELECT 
+            user_id as memberNo,
+            username as userId,
+            name,
+            email,
+            phone,
+            CONCAT(IFNULL(post_num, ''), ' ', IFNULL(address, '')) as address
+        FROM user 
+        WHERE status = '가입'
+        ORDER BY user_id DESC
+        LIMIT 5
+    </select>
+    
+    <!-- 회원 목록 페이징 조회 -->
+    <select id="selectMemberList" resultType="com.omiyami.shop.admin.vo.AdminMemberVO">
+        SELECT 
+            user_id as memberNo,
+            username as userId,
+            name,
+            email,
+            phone,
+            CONCAT(IFNULL(post_num, ''), ' ', IFNULL(address, '')) as address,
+            status as memberStatus
+        FROM user
+        ORDER BY user_id DESC
+        LIMIT #{offset}, #{size}
+    </select>
+    
+    <!-- 전체 회원 수 조회 -->
+    <select id="selectTotalMemberCount" resultType="int">
+        SELECT COUNT(*) FROM user WHERE status = '가입'
+    </select>
+    
+</mapper>

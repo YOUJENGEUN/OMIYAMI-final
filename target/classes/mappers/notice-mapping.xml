@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="NoticeMapper">
+    <insert id="insertNotice" parameterType="com.omiyami.shop.admin.vo.NoticeVO">
+        INSERT INTO notice (title, content, write_date)
+        VALUES (#{title}, #{content}, #{writeDate})
+    </insert>
+    
+    <update id="updateNotice" parameterType="com.omiyami.shop.admin.vo.NoticeVO">
+        UPDATE notice 
+        SET title = #{title},
+            content = #{content}
+        WHERE notice_id = #{noticeId}
+    </update>
+    
+    <delete id="deleteNotice" parameterType="long">
+        DELETE FROM notice 
+        WHERE notice_id = #{noticeId}
+    </delete>
+    
+    <select id="getNoticeById" parameterType="long" resultType="com.omiyami.shop.admin.vo.NoticeVO">
+        SELECT 
+            notice_id as noticeId,
+            title,
+            content,
+            write_date as writeDate
+        FROM notice 
+        WHERE notice_id = #{noticeId}
+    </select>
+    
+    <select id="getNoticeList" resultType="com.omiyami.shop.admin.vo.NoticeVO">
+        SELECT 
+            notice_id as noticeId,
+            title,
+            content,
+            write_date as writeDate
+        FROM notice 
+        ORDER BY notice_id DESC
+    </select>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdminPost">
+	<!-- 최근 공지사항 3개 조회 -->
+	<select id="getRecentNotices" resultType="notice">
+		SELECT
+		notice_id as noticeId,
+		title,
+		content,
+		write_date as writeDate
+		FROM NOTICE
+		ORDER BY write_date DESC
+		LIMIT 3
+	</select>
+
+	<!-- 최근 FAQ 3개 조회 -->
+	<select id="getRecentFaqs" resultType="faq">
+		SELECT
+		faq_id as faqId,
+		title,
+		content,
+		write_date as writeDate,
+		update_date as updateDate
+		FROM
+		FAQ
+		ORDER BY write_date DESC
+		LIMIT 3
+	</select>
+
+	<!-- 최근 리뷰 3개 조회 -->
+	<select id="getRecentReviews" resultType="review">
+		SELECT
+		r.user_id as userId,
+		r.product_id as productId,
+		r.status,
+		r.content,
+		r.write_date as writeDate,
+		p.product_name as productName,
+		pi.img_url as productImage,
+		u.name as writer
+		FROM REVIEW r
+		JOIN PRODUCT p ON r.product_id = p.product_id
+		LEFT JOIN PRODUCT_IMG pi ON p.product_id = pi.product_id
+		JOIN USER u ON r.user_id = u.user_id
+		ORDER BY r.write_date DESC
+		LIMIT 3
+	</select>
+</mapper>
