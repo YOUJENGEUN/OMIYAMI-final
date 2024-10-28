@@ -82,7 +82,7 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
+		
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -126,14 +126,15 @@
 			<scope>test</scope>
 		</dependency>
 		
-		
-		<!-- Jackson Databind for JSON -->
-    	<dependency>
-        	<groupId>com.fasterxml.jackson.core</groupId>
-        	<artifactId>jackson-databind</artifactId>
-        	<version>2.15.0</version> <!-- 사용 중인 Jackson 버전에 맞게 조정 -->
-    	</dependency>
-    	
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+
+		<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.18.0</version>
+</dependency>
+
+    
 		<!--MySQL -->
 	   <dependency>
 	       <groupId>mysql</groupId>
