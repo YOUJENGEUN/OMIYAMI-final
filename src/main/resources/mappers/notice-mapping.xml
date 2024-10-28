@@ -3,12 +3,12 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="NoticeMapper">
-    <insert id="insertNotice" parameterType="com.omiyami.shop.admin.vo.NoticeVO">
+    <insert id="insertNotice" parameterType="com.omiyami.shop.admin.vo.AdminNoticeVO">
         INSERT INTO notice (title, content, write_date)
         VALUES (#{title}, #{content}, #{writeDate})
     </insert>
     
-    <update id="updateNotice" parameterType="com.omiyami.shop.admin.vo.NoticeVO">
+    <update id="updateNotice" parameterType="com.omiyami.shop.admin.vo.AdminNoticeVO">
         UPDATE notice 
         SET title = #{title},
             content = #{content}
@@ -20,7 +20,7 @@
         WHERE notice_id = #{noticeId}
     </delete>
     
-    <select id="getNoticeById" parameterType="long" resultType="com.omiyami.shop.admin.vo.NoticeVO">
+    <select id="getNoticeById" parameterType="long" resultType="com.omiyami.shop.admin.vo.AdminNoticeVO">
         SELECT 
             notice_id as noticeId,
             title,
@@ -30,7 +30,7 @@
         WHERE notice_id = #{noticeId}
     </select>
     
-    <select id="getNoticeList" resultType="com.omiyami.shop.admin.vo.NoticeVO">
+    <select id="getNoticeList" resultType="com.omiyami.shop.admin.vo.AdminNoticeVO">
         SELECT 
             notice_id as noticeId,
             title,

@@ -5,24 +5,52 @@
 <configuration>
 
 	<!-- Alias 설정 -->
- 	<typeAliases>
-		<typeAlias alias="product" type="com.omiyami.shop.product.ProductVO" />
-		<typeAlias alias="review" type="com.omiyami.shop.product.review.ReviewVO" />
-		
+	<typeAliases>
+		<typeAlias alias="product"
+			type="com.omiyami.shop.product.ProductVO" />
+		<typeAlias alias="review"
+			type="com.omiyami.shop.product.review.ReviewVO" />
+
 		<typeAlias alias="user" type="com.omiyami.shop.user.UserVO" />
-		<typeAlias alias="coupon" type="com.omiyami.shop.user.mypage.UserCouponVO" />
-		
+		<typeAlias alias="coupon"
+			type="com.omiyami.shop.user.mypage.UserCouponVO" />
+
 		<typeAlias alias="cart" type="com.omiyami.shop.cart.CartVO" />
-		
+
 		<typeAlias alias="faq" type="com.omiyami.shop.cs.faq.FaqVO" />
-		<typeAlias alias="notice" type="com.omiyami.shop.cs.notice.NoticeVO" />
-		<typeAlias alias="inquery" type="com.omiyami.shop.cs.inquery.InqueryVO" />
-		
-		
-		<typeAlias alias="order" type="com.omiyami.shop.order.OrderVO" />
-		<typeAlias alias="orderdetail" type="com.omiyami.shop.order.OrderDetailVO" />
-		<typeAlias alias="paymentdetail" type="com.omiyami.shop.order.PaymentDetailVO" />
-		
-	</typeAliases>
+		<typeAlias alias="notice"
+			type="com.omiyami.shop.cs.notice.NoticeVO" />
+		<typeAlias alias="inquery"
+			type="com.omiyami.shop.cs.inquery.InqueryVO" />
+
+
+		<typeAlias alias="order"
+			type="com.omiyami.shop.order.OrderVO" />
+		<typeAlias alias="orderdetail"
+			type="com.omiyami.shop.order.OrderDetailVO" />
+		<typeAlias alias="paymentdetail"
+			type="com.omiyami.shop.order.PaymentDetailVO" />
+
+		<!-- 어드민  -->
 	
+		<!-- 게시물 관련 Alias -->
+		<typeAlias alias="adnotice"
+			type="com.omiyami.shop.admin.vo.AdminNoticeVO" />
+		<typeAlias alias="adfaq"
+			type="com.omiyami.shop.admin.vo.AdminFAQVO" />
+		<typeAlias alias="adreview"
+			type="com.omiyami.shop.admin.vo.AdminReviewVO" />
+		<!-- 주문 관련 Alias -->
+		<typeAlias alias="orderSummary"
+			type="com.omiyami.shop.admin.vo.OrderSummaryVO" />
+		<!-- 대시보드 관련 Alias -->
+		<typeAlias alias="dashboardSummary"
+			type="com.omiyami.shop.admin.vo.DashboardSummaryVO" />
+		<!-- VO 클래스에 대한 별칭 설정 -->
+		<typeAlias type="com.omiyami.shop.admin.vo.AdminMemberVO"
+			alias="AdminMemberVO" />
+		<typeAlias
+			type="com.omiyami.shop.admin.vo.AdminMemberStatsVO"
+			alias="AdminMemberStatsVO" />
+	</typeAliases>
 </configuration>
