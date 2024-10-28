@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.omiyami.shop.product.ProductService;
 import com.omiyami.shop.product.ProductVO;
+import com.omiyami.shop.product.review.ReviewVO;
 
 @Controller
 public class ProductController {
@@ -85,16 +86,11 @@ public class ProductController {
         int totalProducts = productService.getProductsCount(area, categories);  // 전체 상품 수 가져오는 메서드
         int totalPages = (int) Math.ceil((double) totalProducts / limit);
         
-        //디버그
-//        System.out.println("totalProducts:" + totalProducts);
-//        System.out.println("totalPages:" + totalPages);
-        
         model.addAttribute("products", products);  // 상품 목록을 모델에 추가
         model.addAttribute("currentCategory", category != null ? category : "전체");  // 현재 선택된 카테고리 추가
         model.addAttribute("currentSortOption", sortOption);  // 현재 선택된 정렬 옵션 추가
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
-        System.out.println("sortOption" + sortOption);
         switch (area) {
             case 1:
                 return "product/productList_1";  // productList_1.jsp로 이동
@@ -124,12 +120,16 @@ public class ProductController {
         }
         model.addAttribute("product", product);
 
-        // 상품 이미지 목록 가져오기
+        //상품 이미지 목록 가져오기
         List<ProductVO> productImages = productService.getProductImagesById(product_id);
         model.addAttribute("productImages", productImages);
 
+        //리뷰 가져옴
+        List<ReviewVO> reviews = productService.getReviewsByProductId(product_id);
+        model.addAttribute("reviews", reviews);
+        
         //추천상품가져옴
-        List<ProductVO> recommendeds = productService.getRecommendeds(product_id);
+        List<ProductVO> recommendeds = productService.getRecommendsByCategory(product_id);
         model.addAttribute("recommendeds", recommendeds);
         
 		return "product/product";

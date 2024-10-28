@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.omiyami.shop.product.ProductVO;
+import com.omiyami.shop.product.review.ReviewVO;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO {
@@ -84,52 +84,23 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public List<ProductVO> getRecommneds(int product_id) {
-		return sqlSession.selectList("ProductMapper.getRecommends", product_id);
-	}
-	
-	
-	//admin product-main
-	@Override
-	public List<ProductVO> getAllProducts() {
-		return sqlSession.selectList("ProductMapper.getAllProducts");
+	public List<ReviewVO> getReviewsByProductId(int product_id) {
+		return sqlSession.selectList("ProductMapper.getReviewsByProductId", product_id);
 	}
 	
 	@Override
-    public List<ProductVO> getAvailableProducts() {
-        return sqlSession.selectList("ProductMapper.getAvailableProducts");
-    }
+	public List<ProductVO> getRecommendsByCategory(int product_id) {
+		return sqlSession.selectList("ProductMapper.getRecommendsByCategory", product_id);
+	}
 
-    @Override
-    public List<ProductVO> getStoppedProducts() {
-        return sqlSession.selectList("ProductMapper.getStoppedProducts");
-    }
+	@Override
+	public List<ProductVO> getRecommendsForCart() {
+		return sqlSession.selectList("ProductMapper.getRecommendsForCart");
+	}
 
-    @Override
-    public List<ProductVO> getOutOfStockProducts() {
-        return sqlSession.selectList("ProductMapper.getOutOfStockProducts");
-    }
-    
-    @Override
-    public void updateProductsStatusToStopped(int productId) {
-        sqlSession.update("ProductMapper.updateProductsStatusToStopped", productId);
-    }
 
-    //admin product-modify
-    @Override
-    public ProductVO getProductForUpdateById(int productId) {
-    	return sqlSession.selectOne("ProductMapper.getProductById", productId);
-    }
 
-    @Override
-    public void updateProduct(ProductVO product) {
-        sqlSession.update("ProductMapper.updateProduct", product);
-    }
 
-    //admin product-form
-    @Override
-    public void insertProduct(ProductVO product) {
-        sqlSession.insert("ProductMapper.insertProduct", product);
-    }
-	
+
+
 }

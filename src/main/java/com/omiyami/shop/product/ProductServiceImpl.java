@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.omiyami.shop.product.ProductDAO;
+import com.omiyami.shop.product.review.ReviewVO;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -64,51 +65,31 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductVO> getRecommendeds(int product_id) {
-		List<ProductVO> recommends = productDAO.getRecommneds(product_id);
+	public List<ReviewVO> getReviewsByProductId(int product_id) {
+		return productDAO.getReviewsByProductId(product_id);
+	}
+	
+	@Override
+	public List<ProductVO> getRecommendsByCategory(int product_id) {
+		List<ProductVO> recommends = productDAO.getRecommendsByCategory(product_id);
+		return recommends;
+	}
+
+	@Override
+	public List<ProductVO> getRecommendsForCart() {
+		List<ProductVO> recommends = productDAO.getRecommendsForCart();
 		return recommends;
 	}
 
 
 
-	@Override
-	public List<ProductVO> getAllProducts() {
-		return productDAO.getAllProducts();
-	}
-	
-	@Override
-	public List<ProductVO> getAvailableProducts() {
-		return productDAO.getAvailableProducts();
-	}
 
-	@Override
-	public List<ProductVO> getStoppedProducts() {
-		return productDAO.getStoppedProducts();
-	}
 
-	@Override
-	public List<ProductVO> getOutOfStockProducts() {
-		return productDAO.getOutOfStockProducts();
-	}
 
-	@Override
-	public ProductVO getProductForUpdateById(int productId) {
-		return productDAO.getProductForUpdateById(productId);
-	}
 
-	@Override
-	public void updateProduct(ProductVO product) {
-		productDAO.updateProduct(product);
-	}
 
-	@Override
-	public void insertProduct(ProductVO product) {
-		productDAO.insertProduct(product);
-	}
 
-	@Override
-	public void updateProductsStatusToStopped(int productId) {
-		productDAO.updateProductsStatusToStopped(productId);
-	}
+
+
 
 }
