@@ -4,7 +4,7 @@
 
 <mapper namespace="AdminPost">
 	<!-- 최근 공지사항 3개 조회 -->
-	<select id="getRecentNotices" resultType="notice">
+	<select id="getRecentNotices" resultType="adnotice">
 		SELECT
 		notice_id as noticeId,
 		title,
@@ -16,7 +16,7 @@
 	</select>
 
 	<!-- 최근 FAQ 3개 조회 -->
-	<select id="getRecentFaqs" resultType="faq">
+	<select id="getRecentFaqs" resultType="adfaq">
 		SELECT
 		faq_id as faqId,
 		title,
@@ -30,7 +30,7 @@
 	</select>
 
 	<!-- 최근 리뷰 3개 조회 -->
-	<select id="getRecentReviews" resultType="review">
+	<select id="getRecentReviews" resultType="adreview">
 		SELECT
 		r.user_id as userId,
 		r.product_id as productId,
