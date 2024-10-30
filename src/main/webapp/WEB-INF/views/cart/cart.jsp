@@ -79,15 +79,15 @@
             <!-- 장바구니 출력 -->
             <c:if test="${not empty cartItems}">
 	            <c:forEach var="item" items="${cartItems}">
-	            <div class="cart-item" data-product-id="${item.productVO.product_id}" data-product-price="${item.productVO.price}">
-				  <input type="checkbox" name="product_ids" value="${item.productVO.product_id}" />
-				  <a href="/product/${item.productVO.product_id}">
-				    <img src="${item.productVO.img_url}" alt="상품이미지" />
+	            <div class="cart-item" data-product-id="${item.product_id}" data-product-price="${item.price}">
+				  <input type="checkbox" name="product_ids" value="${item.product_id}" />
+				  <a href="/product/${item.product_id}">
+				    <img src="${item.img_url}" alt="상품이미지" />
 				  </a>
 				  <div class="cart-item-details">
-				    <p>${item.productVO.brand_name}</p>
-				    <p style="font-weight:600;">${item.productVO.product_name}</p>
-				    <p>${item.productVO.option}</p>
+				    <p>${item.brand_name}</p>
+				    <p style="font-weight:600;">${item.product_name}</p>
+				    <p>${item.option}</p>
 				    <!-- 수량조절 -->
 				    <div class="cart-item-quantity" data-quantity="${item.quantity}">
 				      <button type="button" class="decrease-btn">-</button>
@@ -96,7 +96,7 @@
 				    </div>
 				  </div>
 				  <div class="cart-item-price">
-				  	<p class="total-price" data-price="${item.productVO.price}">
+				  	<p class="total-price" data-price="${item.price}">
 				      <fmt:formatNumber value="${item.getTotalPrice()}" type="number" groupingUsed="true" />원
 				    </p>
 				  </div>
@@ -115,17 +115,16 @@
           <!--  결제금액/주문하기버튼 -->
           <div class="cart-summaries">
           <form id="checkoutForm" action="/checkout" method="post">
-  <!-- 주문 금액, 배송비, 최종 결제 금액, 적립 포인트를 hidden input으로 전송 -->
+  				<!-- 주문 금액, 배송비, 최종 결제 금액, 적립 포인트를 hidden input으로 전송 -->
 		      	<input type="hidden" name="total_order_amount" id="hiddenTotalOrderAmount" value="0" />
   				<input type="hidden" name="shipping_fee" id="hiddenShippingFee" value="0" />
   				<input type="hidden" name="final_payment_amount" id="hiddenFinalPaymentAmount" value="0" />
   				<input type="hidden" name="reward_point" id="hiddenRewardPoint" value="0" />
 		      
 		      <c:forEach var="item" items="${cartItems}">
-			    <input type="hidden" name="product_id" value="${item.productVO.product_id}" />
+			    <input type="hidden" name="product_id" value="${item.product_id}" />
 			    <input type="hidden" name="quantity" value="${item.quantity}" />
-			  	<input type="hidden" name="total_price" value="${item.productVO.price * item.quantity}" />
-			  	
+			  	<input type="hidden" name="total_price" value="${item.price * item.quantity}" />
 			  </c:forEach>
 		      
 		      
