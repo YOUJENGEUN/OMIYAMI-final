@@ -43,32 +43,17 @@ public class CartController {
 	    }
 
 	    List<CartVO> cartItems;
-	    try {
-	        // DB에서 카트 아이템 조회
-	        cartItems = cartService.getCartItemsByUserId(userVO.getUser_id());
-	        System.out.println("User ID: " + userVO.getUser_id());
-	        System.out.println("Number of cart items: " + cartItems.size());
+	    int user_id = userVO.getUser_id();
+	    cartItems = cartService.getCartItemsByUserId(user_id);
 
-	        // 카트 아이템 로그
-	        for (CartVO cartItem : cartItems) {
-	            System.out.println("Cart Item Product ID: " + cartItem.getProductVO().getProduct_id());
-	            System.out.println("Quantity: " + cartItem.getQuantity());
-	        }
-	    } catch (Exception e) {
-	        System.err.println("Error fetching cart items: " + e.getMessage());
-	        model.addAttribute("errorMessage", "장바구니 아이템을 불러오는 중 오류가 발생했습니다.");
-	        return "main"; // 오류 페이지 또는 카트 페이지로 리턴
-	    }
-
-	    // 추천 상품 조회
+	    
 	    List<ProductVO> cartRecommends = productService.getRecommendsForCart();
-
-	    // 모델에 데이터 추가
+	    
 	    model.addAttribute("cartItems", cartItems);
 	    model.addAttribute("cartRecommends", cartRecommends);
 	    model.addAttribute("user", userVO);
 
-	    return "cart/cart"; // JSP 뷰 이름
+	    return "cart/cart";
 	}
 	
 	@PostMapping("/cart/add")
