@@ -5,12 +5,13 @@ public class PaymentDetailVO {
 	private int paymentId;
 	private int orderId;
 	private int userId;
-	private int points;
+	private int pointDiscount;
 	private int paymentPrice;
 	private String paymentMethod;
 
-	private int userCouponId;
-	private int couponValue;
+	private Integer userCouponId;
+	private int couponDiscount;
+	
 	public int getPaymentId() {
 		return paymentId;
 	}
@@ -29,11 +30,11 @@ public class PaymentDetailVO {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public int getPoints() {
-		return points;
+	public int getPointDiscount() {
+		return pointDiscount;
 	}
-	public void setPoints(int points) {
-		this.points = points;
+	public void setPointDiscount(int pointDiscount) {
+		this.pointDiscount = pointDiscount;
 	}
 	public int getPaymentPrice() {
 		return paymentPrice;
@@ -47,19 +48,16 @@ public class PaymentDetailVO {
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-	public int getUserCouponId() {
+	public Integer getUserCouponId() {
 		return userCouponId;
 	}
-	public void setUserCouponId(int userCouponId) {
+	public void setUserCouponId(Integer userCouponId) {
 		this.userCouponId = userCouponId;
 	}
-	public int getCouponValue() {
-		return couponValue;
+	public int getCouponDiscount() {
+		return couponDiscount;
 	}
-	public void setCouponValue(int couponValue) {
-		this.couponValue = couponValue;
+	public void setCouponDiscount(int couponDiscount) {
+		this.couponDiscount = couponDiscount;
 	}
-	
-	
-	
 }

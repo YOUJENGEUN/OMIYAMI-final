@@ -4,12 +4,21 @@ import java.sql.Timestamp;
 
 public class OrderDetailVO {
 
+	private int userId;
+	
 	private int orderId;                  // 주문 ID
-    private int orderNum;                 // 주문 번호
     private Timestamp orderDate;          // 주문 날짜
     private int orderTotalPrice;          // 주문 총 금액
-    private String productId;              // 상품 ID
     private String orderStatus;            // 주문 상태
+    private long orderNum;                 // 주문 번호
+    
+    private String postNum;
+    private String receiverName;
+	private String receiverPhone;
+	private String receiverPostnum;
+	private String address;
+    
+	private String productId;              // 상품 ID
     private String productName;            // 상품 이름
     private String brandName;              // 브랜드 이름
     private String productOption;          // 상품 옵션
@@ -17,22 +26,35 @@ public class OrderDetailVO {
     private int productOrderPrice;         // 상품 주문 가격 (op.quantity * p.price)
     private String imgUrl;                 // 제품 이미지 URL
 	
-	private String receiverName;
-	private String receiverPhone;
-	private String receiverPostnum;
-	private String receiverAddress;
+	public OrderDetailVO() {}
     
-    
-    public int getOrderId() {
+	public OrderDetailVO(int orderId, int orderNum, int orderTotalPrice, String orderStatus, Timestamp orderDate) {
+        this.orderId = orderId;
+        this.orderNum = orderNum;
+        this.orderTotalPrice = orderTotalPrice;
+        this.orderStatus = orderStatus;
+        this.orderDate = orderDate;
+    }
+	
+
+    public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getOrderId() {
 		return orderId;
 	}
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
-	public int getOrderNum() {
+	public long getOrderNum() {
 		return orderNum;
 	}
-	public void setOrderNum(int orderNum) {
+	public void setOrderNum(Long orderNum) {
 		this.orderNum = orderNum;
 	}
 	public Timestamp getOrderDate() {
@@ -114,17 +136,21 @@ public class OrderDetailVO {
 	public void setReceiverPostnum(String receiverPostnum) {
 		this.receiverPostnum = receiverPostnum;
 	}
-	public String getReceiverAddress() {
-		return receiverAddress;
-	}
-	public void setReceiverAddress(String receiverAddress) {
-		this.receiverAddress = receiverAddress;
+
+	public String getAddress() {
+		return address;
 	}
 
-	
-	
-	
-    
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
+	public String getPostNum() {
+		return postNum;
+	}
+
+	public void setPostNum(String postNum) {
+		this.postNum = postNum;
+	}
 
 }
