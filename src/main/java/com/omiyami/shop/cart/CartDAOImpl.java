@@ -38,7 +38,9 @@ public class CartDAOImpl implements CartDAO {
 
     @Override
     public List<CartVO> getCartItemsByUserId(int user_id) {
-        return sqlSession.selectList("CartMapper.getCartItemsByUserId", user_id);
+        //return sqlSession.selectList("CartMapper.getCartItemsByUserId", user_id);
+    	List<CartVO> result = sqlSession.selectList("CartMapper.getCartItemsByUserId", user_id);
+    	return result;
     }
 
     @Override
