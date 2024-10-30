@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CheckoutMapper">
+
+    <select id="getUserCouponInfo" parameterType="int" resultType="coupon">
+		SELECT uc.user_coupon_id, uc.delete_date, mc.coupon_id, mc.name, mc.description,mc.value
+		FROM MANAGER_COUPON mc JOIN USER_COUPON uc ON mc.coupon_id = uc.coupon_id 
+		WHERE uc.user_id = #{userId} AND uc.status = 1
+	</select>
+
+	<!-- 현재 잔액 조회 -->
+    <select id="getCurrentBalance" parameterType="int" resultType="int">
+        SELECT balance
+        FROM POINT
+        WHERE user_id = #{user_id}
+        ORDER BY change_date DESC
+        LIMIT 1
+    </select>
+
+    <!-- 포인트 적립 -->
+    <insert id="addPoints" parameterType="map">
+        <!-- 현재 잔액을 변수로 가져오기 -->
+        <selectKey resultType="int" keyProperty="currentBalance" order="BEFORE">
+            SELECT balance
+            FROM POINT
+            WHERE user_id = #{user_id}
+            ORDER BY change_date DESC
+            LIMIT 1
+        </selectKey>
+
+        <!-- 포인트 적립 내역 삽입 -->
+        INSERT INTO POINT (user_id, points, description, change_date, balance)
+        VALUES (#{user_id}, #{points}, '적립', NOW(), #{currentBalance} + #{points})
+    </insert>
+
+	<!-- 무통장결제 적립예정 포인트 적립 -->
+	<insert id="addPendingPoints" parameterType="map">
+	    <!-- 현재 잔액을 가져와 currentBalance 변수에 저장 -->
+	    <selectKey resultType="int" keyProperty="currentBalance" order="BEFORE">
+	        SELECT balance 
+	        FROM POINT 
+	        WHERE user_id = #{user_id} 
+	        ORDER BY change_date DESC 
+	        LIMIT 1
+	    </selectKey>
+	
+	    <!-- 적립예정 포인트를 적립하면서 기존 잔액에 더하여 balance에 반영 -->
+	    INSERT INTO POINT (user_id, points, description, change_date, balance)
+	    VALUES (#{user_id}, #{points}, '적립예정', NOW(), #{currentBalance})
+	</insert>
+
+    <!-- 포인트 사용 - 서비스 레이어에서 충분한 잔액을 확인한 후 호출하는 방식 -->
+    <insert id="usePoints" parameterType="map">
+        INSERT INTO POINT (user_id, points, description, change_date, balance)
+        VALUES (#{user_id}, -#{pointsUsed}, '사용', NOW(), #{currentBalance} - #{pointsUsed})
+    </insert>
+
+	<insert id="insertOrder" parameterType="orderdetail" useGeneratedKeys="true" keyProperty="orderId">
+	    INSERT INTO `ORDER` (user_id, order_num, total_price, status, receiver, receiver_phone, post_num, address)
+	    VALUES (#{userId}, #{orderNum}, #{orderTotalPrice}, #{orderStatus}, #{receiverName}, #{receiverPhone}, #{postNum}, #{address});
+	</insert>
+	
+	<insert id="insertOrderDetail" parameterType="orderdetail">
+	    INSERT INTO `ORDER_PRODUCT` (order_id, product_id, quantity)
+	    VALUES (#{orderId}, #{productId}, #{productOrderQuantity});
+	</insert>
+
+	<update id="updateProductStock" parameterType="map">
+	    UPDATE PRODUCT
+	    SET stock = stock - #{quantity}
+	    WHERE product_id = #{productId}
+	</update>
+
+	<insert id="insertPaymentDetail" parameterType="paymentdetail">
+		INSERT INTO PAYMENT (order_id, user_id, points, payment_price,
+		payment_method, user_coupon_id)
+		VALUES (#{orderId}, #{userId}, #{pointDiscount}, #{paymentPrice},
+		#{paymentMethod}, 
+		<if test="userCouponId != null">
+            #{userCouponId}
+        </if>
+        <if test="userCouponId == null">
+            NULL
+        </if>)
+	</insert>
+	
+	<update id="updateUserCouponStatus" parameterType="Integer">
+	    UPDATE USER_COUPON
+	    SET status = 0
+	    WHERE user_coupon_id = #{userCouponId}
+	</update>
+
+	<delete id="deleteCartItem" parameterType="map">
+	    DELETE FROM cart
+	    WHERE product_id = #{productId} AND user_id = #{userId}
+	</delete>
+	
+</mapper>

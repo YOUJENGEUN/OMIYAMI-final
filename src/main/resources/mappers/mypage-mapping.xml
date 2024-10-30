@@ -21,7 +21,7 @@
 	<!-- 쿠폰 개수 조회 -->
 	<select id="getUserCouponCount" parameterType="int" resultType="int">
         SELECT COUNT(*) FROM user_coupon 
-        WHERE user_id = #{userId}
+        WHERE user_id = #{userId} AND status = 1
     </select>
     
 	<!-- 가장 최근 주문 상태 조회 -->
@@ -36,32 +36,31 @@
 	<!-- 최근 주문 5개 조회 -->
 	<select id="getRecentOrders" parameterType="int" resultType="orderdetail">
 		SELECT 
-		    o.order_id AS orderId,				<!-- 주문 ID -->
-		    o.order_num AS orderNum,			<!-- 주문 번호 -->
-		    o.date AS orderDate,				<!-- 주문 날짜 -->
-		    o.status AS orderStatus,			<!-- 주문 상태 -->
-		    op.product_id AS productId,			<!-- 상품 ID -->
-		    op.quantity AS productOrderQuantity,<!-- 상품 주문 수량 -->
-		    p.brand_name AS brandName,			<!-- 상품 브랜드 이름 -->
-		    p.product_name AS productName,		<!-- 상품 이름 -->
-		    p.option AS productOption,			<!-- 상품 옵션 -->
-		    (op.quantity * p.price) AS productOrderPrice, <!-- 상품별 주문 총 가격 -->
-		    (SELECT MIN(i.img_url) 
-		    FROM PRODUCT_IMG i 
-		    WHERE i.product_id = op.product_id) AS imgUrl
-		FROM 
-		    `ORDER` o
-		INNER JOIN 
-		    `ORDER_PRODUCT` op ON o.order_id = op.order_id  <!-- 주문과 주문 상품 조인 -->
-		INNER JOIN 
-		    `PRODUCT` p ON op.product_id = p.product_id      <!-- 주문 상품과 제품 조인 -->
-		LEFT JOIN 
-		    `PRODUCT_IMG` i ON op.product_id = i.product_id  <!-- 제품과 이미지 조인 -->
-		WHERE 
-		    o.user_id = #{userId}                           <!-- 특정 사용자 ID로 필터링 -->
-		ORDER BY 
-		    o.order_id DESC                                  <!-- 주문 번호 기준으로 정렬 -->
-		LIMIT 5;                                             <!-- 최근 주문 중 5개만 출력 -->
+        o.order_id AS orderId,               <!-- 주문 ID -->
+        o.order_num AS orderNum,             <!-- 주문 번호 -->
+        o.date AS orderDate,                 <!-- 주문 날짜 -->
+        o.status AS orderStatus,             <!-- 주문 상태 -->
+        op.product_id AS productId,          <!-- 상품 ID -->
+        op.quantity AS productOrderQuantity, <!-- 상품 주문 수량 -->
+        p.brand_name AS brandName,           <!-- 상품 브랜드 이름 -->
+        p.product_name AS productName,       <!-- 상품 이름 -->
+        p.option AS productOption,           <!-- 상품 옵션 -->
+        (op.quantity * p.price) AS productOrderPrice, <!-- 상품별 주문 총 가격 -->
+        (SELECT MIN(i.img_url)               <!-- 해당 상품의 이미지 URL 하나 선택 -->
+         FROM PRODUCT_IMG i 
+         WHERE i.product_id = op.product_id
+         LIMIT 1) AS imgUrl                  <!-- 하나의 img_url만 가져옴 -->
+    FROM 
+        `ORDER` o
+    INNER JOIN 
+        `ORDER_PRODUCT` op ON o.order_id = op.order_id  <!-- 주문과 주문 상품 조인 -->
+    INNER JOIN 
+        `PRODUCT` p ON op.product_id = p.product_id      <!-- 주문 상품과 제품 조인 -->
+    WHERE 
+        o.user_id = #{userId}                            <!-- 특정 사용자 ID로 필터링 -->
+    ORDER BY 
+        o.order_id DESC                                  <!-- 주문 번호 기준으로 정렬 -->
+    LIMIT 5;                                             <!-- 최근 주문 중 5개만 출력 -->
 	</select>
 
 
@@ -147,7 +146,7 @@
 	        o.receiver AS receiverName,
 	        o.receiver_phone AS receiverPhone,
 	        o.post_num AS receiverPostnum,
-	        o.address AS receiverAddress 
+	        o.address AS address 
         FROM `order` o 
         WHERE o.order_id = #{orderId}
 	</select>
@@ -155,29 +154,28 @@
 	<!-- 주문 상품 상세 정보 조회 -->
 	<select id="getOrderProductDetail" parameterType="int" resultType="orderdetail">
 		SELECT 
-		    o.order_id AS orderId,				<!-- 주문 ID -->
-		    o.order_num AS orderNum,			<!-- 주문 번호 -->
-		    o.date AS orderDate,				<!-- 주문 날짜 -->
-		    o.status AS orderStatus,			<!-- 주문 상태 -->
-		    op.product_id AS productId,			<!-- 상품 ID -->
-		    op.quantity AS productOrderQuantity,<!-- 상품 주문 수량 -->
-		    p.brand_name AS brandName,			<!-- 상품 브랜드 이름 -->
-		    p.product_name AS productName,		<!-- 상품 이름 -->
-		    p.option AS productOption,			<!-- 상품 옵션 -->
-		    (op.quantity * p.price) AS productOrderPrice, <!-- 상품별 주문 총 가격 -->
-		    (SELECT MIN(i.img_url) 
-		    FROM PRODUCT_IMG i 
-		    WHERE i.product_id = op.product_id) AS imgUrl
-		FROM 
-		    `ORDER` o
-		INNER JOIN 
-		    `ORDER_PRODUCT` op ON o.order_id = op.order_id  <!-- 주문과 주문 상품 조인 -->
-		INNER JOIN 
-		    `PRODUCT` p ON op.product_id = p.product_id      <!-- 주문 상품과 제품 조인 -->
-		LEFT JOIN 
-		    `PRODUCT_IMG` i ON op.product_id = i.product_id  <!-- 제품과 이미지 조인 -->
-		WHERE 
-		    o.order_id = ${orderId}                          <!-- 특정 사용자 ID로 필터링 -->
+        o.order_id AS orderId,               <!-- 주문 ID -->
+        o.order_num AS orderNum,             <!-- 주문 번호 -->
+        o.date AS orderDate,                 <!-- 주문 날짜 -->
+        o.status AS orderStatus,             <!-- 주문 상태 -->
+        op.product_id AS productId,          <!-- 상품 ID -->
+        op.quantity AS productOrderQuantity, <!-- 상품 주문 수량 -->
+        p.brand_name AS brandName,           <!-- 상품 브랜드 이름 -->
+        p.product_name AS productName,       <!-- 상품 이름 -->
+        p.option AS productOption,           <!-- 상품 옵션 -->
+        (op.quantity * p.price) AS productOrderPrice, <!-- 상품별 주문 총 가격 -->
+        (SELECT i.img_url                    <!-- 상품 이미지 URL 하나 선택 -->
+         FROM PRODUCT_IMG i 
+         WHERE i.product_id = op.product_id
+         LIMIT 1) AS imgUrl                  <!-- 하나의 img_url만 가져옴 -->
+    FROM 
+        `ORDER` o
+    INNER JOIN 
+        `ORDER_PRODUCT` op ON o.order_id = op.order_id  <!-- 주문과 주문 상품 조인 -->
+    INNER JOIN 
+        `PRODUCT` p ON op.product_id = p.product_id      <!-- 주문 상품과 제품 조인 -->
+    WHERE 
+        o.order_id = ${orderId}                          <!-- 특정 사용자 ID로 필터링 -->
 	</select>
 
 	<!-- 결제 할인 정보 조회 -->
@@ -186,8 +184,9 @@
             p.payment_id AS paymentId,
             p.payment_price AS paymentPrice,
             p.payment_method AS paymentMethod,
+            p.points AS pointDiscount,
             uc.coupon_id AS couponId,
-            mc.value AS couponValue
+            mc.value AS couponDiscount
         FROM PAYMENT p
         LEFT JOIN USER_COUPON uc ON p.user_coupon_id = uc.user_coupon_id
         LEFT JOIN MANAGER_COUPON mc ON uc.coupon_id = mc.coupon_id
@@ -207,14 +206,14 @@
 	<select id="getTotalPointsByStatus" parameterType="map" resultType="int">
         SELECT SUM(balance) 
         FROM point
-        WHERE user_id = #{userId} AND description = #{description};
+        WHERE user_id = #{userId} AND description = #{description}
     </select>
 	
 	<!-- 쿠폰정보 -->
 	<select id="getUserCouponInfo" parameterType="int" resultType="coupon">
 		SELECT uc.delete_date, mc.coupon_id, mc.name, mc.description,mc.value
 		FROM MANAGER_COUPON mc JOIN USER_COUPON uc ON mc.coupon_id = uc.coupon_id 
-		WHERE uc.user_id = #{userId};
+		WHERE uc.user_id = #{userId} AND uc.status = 1
 	</select>
 
 
