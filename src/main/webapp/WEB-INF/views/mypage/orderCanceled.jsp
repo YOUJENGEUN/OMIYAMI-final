@@ -77,8 +77,7 @@
 			        		<fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" />	
 			        	</td>
 			            <td valign="middle">
-			                <div style="text-align:center;text-decoration:underline;cursor:pointer;" 
-			                	onclick="location.href='/orderdetail?orderId=${order.orderId}">
+			                <div style="text-align:center;text-decoration:underline;cursor:pointer;" onclick="location.href='orderInfo.html?orderId=${order.orderId}'">
 			                    ${order.orderNum}
 			                </div>
 			            </td>
@@ -87,7 +86,7 @@
 			                    <div class="product-image">
 			                    	<img src="${order.imgUrl}" onclick="location.href='/product/${order.productId}'">
 			                    </div>
-			                     <div class="ms-2">
+			                    <div class="ms-2">
 			                        <p class="mb-1 table-sub" valign="middle">${order.brandName}</p>
 			                        <p class="mb-1 table-sub" valign="middle">${order.productName}</p>
 			                        <p class="mb-1 table-sub" valign="middle">${order.productOption}</p>

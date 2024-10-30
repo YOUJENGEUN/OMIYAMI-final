@@ -83,7 +83,7 @@
             <div class="text-left mt-4">주문처리 근황</div>
             <hr style="border: 1px solid var(--gray600); opacity: 1" />
             <div class="uorder-check kr-600">
-			    <div class="uorder-check-item ${latestOrderStatus == '결제예정' ? 'highlight' : ''}">
+			    <div class="uorder-check-item ${latestOrderStatus == '결제완료' ? 'highlight' : ''}">
 			        <div>결제예정</div>
 			    </div>
 			    <i class="fa-solid fa-greater-than" style="color: var(--gray600)"></i>

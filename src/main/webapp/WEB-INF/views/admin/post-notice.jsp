@@ -18,7 +18,7 @@
 <meta property="og:image:height" content="630" />
 
 <link
-	href="../${pageContext.request.contextPath}/resources/img/logo/logo1.png"
+	href="${pageContext.request.contextPath}/resources/img/logo/logo1.png"
 	rel="icon" />
 
 <link
@@ -50,7 +50,7 @@
 <title>OMIYAMI</title>
 </head>
 
-<body style="background-color: var(--bluegray100)">
+<body style="background-color: var(- -bluegray100)">
 	<div class="main-wrapper row">
 		<div class="sidebar col-lg-2 px-0">
 			<div class="d-flex justify-content-center my-5 logo">
@@ -87,7 +87,7 @@
 					</div>
 				</div>
 				<hr
-					style="border: 1px solid var(--gray900); transform: scaleY(1.1); opacity: 1;" />
+					style="border: 1px solid var(- -gray900); transform: scaleY(1.1); opacity: 1;" />
 			</div>
 			<div class="product-container">
 				<div class="row d-flex">
@@ -106,37 +106,35 @@
 				<div class="order-section mt-3" style="margin-bottom: 30px">
 					<div class="tab-content">
 						<div>
-							<table>
-								<thead class="table-head">
-									<tr>
-										<th style="width: 5%"><input type="checkbox"
-											name="selectAll-item" id="checkbtn" onclick="selectAll(this)" />
-										</th>
-										<th style="width: 5%">No</th>
-										<th colspan="4" style="width: 35%">제목</th>
-										<th style="width: 15%">작성자</th>
-										<th style="width: 15%">작성일</th>
-									</tr>
-								</thead>
-
-
-								<tbody class="table-body" style="line-height: 2;">
-									<c:forEach items="${notices}" var="notice">
-										<tr class="order-item" style="text-align: center">
-											<td style="width: 5%"><input type="checkbox"
-												name="select-item" value="${notice.noticeId}"
-												onclick="selectItem()" /></td>
-											<td colspan="4">${notice.noticeId}</td>
-											<td style="font-size: var(- -size300)"><a
-												href="../${pageContext.request.contextPath}/post-notice-form-modify?noticeId=${notice.noticeId}">
-													${notice.title} </a></td>
-											<td>관리자</td>
-											<td style="font-size: var(- -size300)"><fmt:formatDate
-													value="${notice.writeDate}" pattern="yyyy.MM.dd" /></td>
+							<form id="noticeForm" method="post">
+								<table>
+									<thead class="table-head">
+										<tr>
+											<th style="width: 5%"><input type="checkbox"
+												id="selectAll" onclick="toggleAll(this)" /></th>
+											<th style="width: 5%">No</th>
+											<th colspan="4" style="width: 35%">제목</th>
+											<th style="width: 15%">작성자</th>
+											<th style="width: 15%">작성일</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+									</thead>
+									<tbody class="table-body" style="line-height: 2;">
+										<c:forEach items="${notices}" var="notice">
+											<tr class="order-item" style="text-align: center">
+												<td style="width: 5%"><input type="checkbox"
+													name="noticeIds" value="${notice.noticeId}" /></td>
+												<td colspan="4">${notice.noticeId}</td>
+												<td style="font-size: var(- -size300)"><a
+													href="../${pageContext.request.contextPath}/post-notice-form-modify?noticeId=${notice.noticeId}"
+													style="color: #000000;"> ${notice.title} </a></td>
+												<td>관리자</td>
+												<td style="font-size: var(- -size300)"><fmt:formatDate
+														value="${notice.writeDate}" pattern="yyyy.MM.dd" /></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -159,51 +157,60 @@
 	</div>
 
 	<!-- 공지사항 삭제를 위한 JavaScript -->
-	<script>
-    function deleteSelectedNotices() {
-        const selectedCheckboxes = document.querySelectorAll('input[name="select-item"]:checked');
-        if (selectedCheckboxes.length === 0) {
-            alert('삭제할 공지사항을 선택해주세요.');
-            return;
-        }
-        
-        if (confirm('선택한 공지사항을 삭제하시겠습니까?')) {
-            const noticeIds = Array.from(selectedCheckboxes).map(cb => cb.value);
-            
-            // form을 생성하여 POST 요청 전송
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '${pageContext.request.contextPath}/deleteNotices';
-            
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'noticeIds';
-            input.value = noticeIds.join(',');
-            
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
+<script>
+function toggleAll(source) {
+    const checkboxes = document.getElementsByName('noticeIds');
+    for(let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = source.checked;
+    }
+}
+
+function deleteSelectedNotices() {
+    const form = document.getElementById('noticeForm');
+    const checkedBoxes = document.querySelectorAll('input[name="noticeIds"]:checked');
+    
+    if (checkedBoxes.length === 0) {
+        alert('삭제할 공지사항을 선택해주세요.');
+        return;
+    }
+    
+    if (confirm('선택한 공지사항을 삭제하시겠습니까?')) {
+        form.action = '${pageContext.request.contextPath}/deleteNotices';
+        form.submit();
+    }
+}
+
+function modifySelectedNotice() {
+    const checkedBoxes = document.querySelectorAll('input[name="noticeIds"]:checked');
+    
+    if (checkedBoxes.length === 0) {
+        alert('수정할 공지사항을 선택해주세요.');
+        return;
+    }
+    
+    if (checkedBoxes.length > 1) {
+        alert('수정은 하나의 공지사항만 선택해주세요.');
+        return;
+    }
+    
+    const noticeId = checkedBoxes[0].value;
+    location.href = '${pageContext.request.contextPath}/post-notice-form-modify?noticeId=' + noticeId;
+}
+
+function selectItem() {
+    const checkAll = document.getElementById('selectAll');
+    const checkboxes = document.getElementsByName('noticeIds');
+    
+    let allChecked = true;
+    for(let i = 0; i < checkboxes.length; i++) {
+        if (!checkboxes[i].checked) {
+            allChecked = false;
+            break;
         }
     }
-    function modifySelectedNotice() {
-        const selectedCheckboxes = document.querySelectorAll('input[name="select-item"]:checked');
-        
-        // 선택된 항목이 없는 경우
-        if (selectedCheckboxes.length === 0) {
-            alert('수정할 공지사항을 선택해주세요.');
-            return;
-        }
-        
-        // 여러 개가 선택된 경우
-        if (selectedCheckboxes.length > 1) {
-            alert('수정은 하나의 공지사항만 선택해주세요.');
-            return;
-        }
-        
-        // 선택된 공지사항의 ID를 가져와서 수정 페이지로 이동
-        const noticeId = selectedCheckboxes[0].value;
-        location.href = '${pageContext.request.contextPath}/post-notice-form-modify?noticeId=' + noticeId;
-    }
-    </script>
+    
+    checkAll.checked = allChecked;
+}
+</script>
 </body>
 </html>
