@@ -165,7 +165,7 @@
                 </td>
                 <td>
                   <div class="mb-2">
-                    <span style="color: var(--error)">&#40;-&#41; ${payment.couponValue}</span>원
+                    <span style="color: var(--error)">&#40;-&#41; ${payment.couponDiscount}</span>원
                   </div>
                 </td>
               </tr>
@@ -177,7 +177,7 @@
                 </td>
                 <td>
                   <div class="mb-2">
-                    <span style="color: var(--error)">&#40;-&#41; ${payment.points}</span>원
+                    <span style="color: var(--error)">&#40;-&#41; ${payment.pointDiscount}</span>원
                   </div>
                 </td>
               </tr>
@@ -188,7 +188,7 @@
                 </td>
                 <td>
                   <div class="mb-2">
-                  	<c:set var="totalValue" value="${payment.couponValue + payment.points}"/>
+                  	<c:set var="totalValue" value="${payment.couponDiscount + payment.pointDiscount}"/>
                     <span style="color: var(--error)">&#40;-&#41; ${totalValue}</span>원
                   </div>
                 </td>
@@ -248,7 +248,7 @@
                   <div class="mb-2 table-title" style="text-align: left">주소</div>
                 </td>
                 <td>
-                  <div class="ms-5 mb-2">${order.receiverAddress.replace(',', '')}</div>
+                  <div class="ms-5 mb-2">${order.address.replace(',', '')}</div>
                 </td>
               </tr>
               <tr>
