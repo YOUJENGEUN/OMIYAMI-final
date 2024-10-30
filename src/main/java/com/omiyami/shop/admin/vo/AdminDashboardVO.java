@@ -6,8 +6,8 @@ public class AdminDashboardVO {
 	private int totalSales; // 판매 현황
 	private int newOrderCount; // 신규 주문 수
 	private int inquiryCount; // 고객 문의 수
-	private List<InquiryVO> recentInquiries; // 최근 문의 목록
-	private List<ReviewVO> recentReviews; // 최근 리뷰 목록
+	private List<AdminInquiryVO> recentInquiries; // 최근 문의 목록
+	private List<AdminReviewVO> recentReviews; // 최근 리뷰 목록
 	private List<AdminOrderVO> recentOrders; // 최근 주문 목록
 
 	// 기본 생성자
@@ -39,19 +39,19 @@ public class AdminDashboardVO {
 		this.inquiryCount = inquiryCount;
 	}
 
-	public List<InquiryVO> getRecentInquiries() {
+	public List<AdminInquiryVO> getRecentInquiries() {
 		return recentInquiries;
 	}
 
-	public void setRecentInquiries(List<InquiryVO> recentInquiries) {
+	public void setRecentInquiries(List<AdminInquiryVO> recentInquiries) {
 		this.recentInquiries = recentInquiries;
 	}
 
-	public List<ReviewVO> getRecentReviews() {
+	public List<AdminReviewVO> getRecentReviews() {
 		return recentReviews;
 	}
 
-	public void setRecentReviews(List<ReviewVO> recentReviews) {
+	public void setRecentReviews(List<AdminReviewVO> recentReviews) {
 		this.recentReviews = recentReviews;
 	}
 

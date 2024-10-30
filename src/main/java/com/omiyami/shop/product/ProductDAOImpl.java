@@ -98,7 +98,48 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectList("ProductMapper.getRecommendsForCart");
 	}
 
+	//admin product-main
+		@Override
+		public List<ProductVO> getAllProducts() {
+			return sqlSession.selectList("ProductMapper.getAllProducts");
+		}
+		
+		@Override
+	    public List<ProductVO> getAvailableProducts() {
+	        return sqlSession.selectList("ProductMapper.getAvailableProducts");
+	    }
 
+	    @Override
+	    public List<ProductVO> getStoppedProducts() {
+	        return sqlSession.selectList("ProductMapper.getStoppedProducts");
+	    }
+
+	    @Override
+	    public List<ProductVO> getOutOfStockProducts() {
+	        return sqlSession.selectList("ProductMapper.getOutOfStockProducts");
+	    }
+	    
+	    @Override
+	    public void updateProductsStatusToStopped(int productId) {
+	        sqlSession.update("ProductMapper.updateProductsStatusToStopped", productId);
+	    }
+
+	    //admin product-modify
+	    @Override
+	    public ProductVO getProductForUpdateById(int productId) {
+	    	return sqlSession.selectOne("ProductMapper.getProductById", productId);
+	    }
+
+	    @Override
+	    public void updateProduct(ProductVO product) {
+	        sqlSession.update("ProductMapper.updateProduct", product);
+	    }
+
+	    //admin product-form
+	    @Override
+	    public void insertProduct(ProductVO product) {
+	        sqlSession.insert("ProductMapper.insertProduct", product);
+	    }
 
 
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminPostMapper">
+    
+    <!-- FAQ 전체 조회 -->
+    <select id="getAllFaqs" resultType="com.omiyami.shop.admin.vo.AdminFAQVO">
+        SELECT 
+            faq_id as faqId,
+            title,
+            content,
+            write_date as writeDate,
+            update_date as updateDate
+        FROM 
+            FAQ
+        ORDER BY 
+            write_date DESC
+    </select>
+    
+    <!-- FAQ 상세 조회 -->
+    <select id="getFaqById" parameterType="long" resultType="com.omiyami.shop.admin.vo.AdminFAQVO">
+        SELECT 
+            faq_id as faqId,
+            title,
+            content,
+            write_date as writeDate,
+            update_date as updateDate
+        FROM 
+            FAQ 
+        WHERE 
+            faq_id = #{faqId}
+    </select>
+    
+    <!-- FAQ 생성 -->
+    <insert id="createFaq" parameterType="com.omiyami.shop.admin.vo.AdminFAQVO">
+        INSERT INTO FAQ (
+            title, 
+            content,
+            write_date
+        ) VALUES (
+            #{title}, 
+            #{content},
+            NOW()
+        )
+    </insert>
+    
+    <!-- FAQ 수정 -->
+    <update id="updateFaq" parameterType="com.omiyami.shop.admin.vo.AdminFAQVO">
+        UPDATE FAQ SET 
+            title = #{title}, 
+            content = #{content},
+            update_date = CURRENT_TIMESTAMP
+        WHERE 
+            faq_id = #{faqId}
+    </update>
+    
+    <!-- FAQ 삭제 -->
+    <delete id="deleteFaq" parameterType="long">
+        DELETE FROM FAQ WHERE faq_id = #{faqId}
+    </delete>
+    
+</mapper>

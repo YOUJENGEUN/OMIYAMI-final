@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdminReviewMapper">
+	<select id="getReviewList" parameterType="map"
+		resultType="com.omiyami.shop.admin.vo.AdminReviewVO">
+		SELECT
+		r.user_id as userId,
+		r.product_id as productId,
+		r.status,
+		r.content,
+		r.write_date as writeDate,  <!-- TIMESTAMP를 자동으로 java.util.Date로 변환 -->
+		p.product_name as productName,
+		p.brand_name as brandName,
+		u.name as writer,
+		CONCAT('/resources/img/product/', p.product_id, '/main.jpg') as productImage
+		FROM
+		REVIEW r
+		INNER JOIN PRODUCT p ON r.product_id = p.product_id
+		INNER JOIN USER u ON r.user_id = u.user_id
+		ORDER BY
+		r.write_date DESC
+		LIMIT #{offset}, #{limit}
+	</select>
+
+	<select id="getTotalReviewCount" resultType="int">
+		SELECT COUNT(*) FROM REVIEW
+	</select>
+
+	<delete id="deleteReviews" parameterType="list">
+		DELETE FROM REVIEW
+		WHERE user_id IN
+		<foreach collection="list" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="getReviewById" parameterType="long"
+		resultType="com.omiyami.shop.admin.vo.AdminReviewVO">
+		SELECT
+		r.user_id as userId,
+		r.product_id as productId,
+		r.status,
+		r.content,
+		r.write_date as writeDate,
+		p.product_name as productName,
+		p.product_id as productId,
+		p.brand_name as brandName,
+		u.name as writer,
+		CONCAT('/resources/img/product/', p.product_id, '/main.jpg') as productImage
+		FROM
+		REVIEW r
+		INNER JOIN PRODUCT p ON r.product_id = p.product_id
+		INNER JOIN USER u ON r.user_id = u.user_id
+		WHERE
+		r.user_id = #{value}
+	</select>
+	<select id="getLatestReviews" parameterType="map" resultType="com.omiyami.shop.admin.vo.AdminReviewVO">
+    SELECT 
+        r.user_id as userId,
+        r.product_id as productId,
+        r.status,
+        r.content,
+        r.write_date as writeDate,
+        p.product_name as productName,
+        p.brand_name as brandName,
+        u.name as writer
+    FROM 
+        REVIEW r
+        INNER JOIN PRODUCT p ON r.product_id = p.product_id
+        INNER JOIN USER u ON r.user_id = u.user_id
+    ORDER BY 
+        r.write_date DESC
+    LIMIT #{limit}
+</select>
+</mapper>
